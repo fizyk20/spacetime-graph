@@ -28,7 +28,7 @@ class Line(GenericObject):
         t1 = 0
         t2 = 0
         for i in range(8):
-            p = numpy.array([0, 0, 0], 'f')
+            p = numpy.array([0, 0], 'f')
             p[0] = pl[(i & 4) >> 2][0]
             p[1] = pl[(i & 2) >> 1][1]
             t = numpy.dot(p - self.point, self.dir)
