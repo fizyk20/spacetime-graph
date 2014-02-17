@@ -23,6 +23,9 @@ class GenericObject:
     def setColor(self, r, g, b):
         self._color = (r, g, b)
         
+    def identity(self):
+        self._transform = numpy.identity(4, 'f')
+        
     def transform(self, m):
         self._transform = numpy.dot(self._transform, m)
         
