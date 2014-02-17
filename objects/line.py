@@ -37,7 +37,6 @@ class Line(GenericObject):
         p1 = self.point + t1*self.dir
         p2 = self.point + t2*self.dir
         glBegin(GL_LINES)
-        glColor(*self._color)
         glVertex(p1[1], p1[0], 0.0)
         glVertex(p2[1], p2[0], 0.0)
         glEnd()

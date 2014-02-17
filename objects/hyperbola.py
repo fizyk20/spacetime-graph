@@ -12,7 +12,6 @@ class Hyperbola(GenericObject):
         tmin = kwargs.get('tmin', -3.0)
         tmax = kwargs.get('tmax', 3.0)
         glBegin(GL_LINE_STRIP)
-        glColor(*self._color)
         t = tmin
         step = (tmax-tmin) / 100
         while t <= tmax:

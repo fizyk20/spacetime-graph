@@ -12,7 +12,8 @@ class GenericObject:
     def draw(self, **kwargs):
         glMatrixMode(GL_MODELVIEW)
         glPushMatrix()
-        glMultMatrixd(self._transform)
+        glMultMatrixf(self._transform)
+        glColor(*self._color)
         self._draw(**kwargs)
         glPopMatrix()
         
@@ -23,7 +24,7 @@ class GenericObject:
         self._color = (r, g, b)
         
     def transform(self, m):
-        self._transform *= m
+        self._transform = numpy.dot(self._transform, m)
         
     def pushMatrix(self):
         self._matrix_stack.append(self._transform)
@@ -36,9 +37,8 @@ class GenericObject:
         
     def translate(self, x=0, y=0):
         m = numpy.identity(4, 'f')
-        m[0,3] = x
-        m[1,3] = y
-        m[2,3] = 0
+        m[3,0] = x
+        m[3,1] = y
         self.transform(m)
         
     def rotate(self, angle):
