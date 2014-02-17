@@ -1,5 +1,5 @@
 import numpy
-from math import sin, cos, pi
+from math import sin, cos, pi, sqrt
 from OpenGL.GL import *
 
 class GenericObject:
@@ -51,4 +51,14 @@ class GenericObject:
         m[0, 1] = -s
         m[1, 0] = s
         self.transform(m)
+        
+    def lorentz(self, v):
+        m = numpy.identity(4, 'f')
+        gamma = 1/sqrt(1-v*v)
+        m[0, 0] = gamma
+        m[1, 1] = gamma
+        m[0, 1] = gamma*v
+        m[1, 0] = gamma*v
+        self.transform(m)
+        
     
