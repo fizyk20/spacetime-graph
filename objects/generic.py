@@ -4,15 +4,14 @@ from OpenGL.GL import *
 
 class GenericObject:
     
-    def __init__(self):
-        self._color = (0, 0, 0)
+    def __init__(self, **kwargs):
+        self._color = kwargs.get('color', (0, 0, 0))
         self._transform = numpy.identity(4)
         self._matrix_stack = []
         
     def draw(self, **kwargs):
         glMatrixMode(GL_MODELVIEW)
         glPushMatrix()
-        glLoadIdentity()
         glMultMatrixd(self._transform)
         self._draw(**kwargs)
         glPopMatrix()

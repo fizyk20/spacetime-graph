@@ -4,7 +4,8 @@ from math import cosh, sinh
 
 class Hyperbola(GenericObject):
     
-    def __init__(self, a=1):
+    def __init__(self, a=1, **kwargs):
+        super(Hyperbola, self).__init__(**kwargs)
         self.a = a  #y = a*cosh(t), x = a*sinh(t)
     
     def _draw(self, **kwargs):
@@ -14,7 +15,7 @@ class Hyperbola(GenericObject):
         glColor(*self._color)
         t = tmin
         step = (tmax-tmin) / 100
-        while t < tmax:
+        while t <= tmax:
             glVertex(self.a*sinh(t), self.a*cosh(t), 0.0)
             t += step
         glEnd()

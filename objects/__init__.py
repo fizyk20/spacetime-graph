@@ -1,1 +1,2 @@
-from hyperbola import Hyperbola
+from .hyperbola import Hyperbola
+from .line import Line
