@@ -9,15 +9,15 @@ class GenericObject:
         self._transform = numpy.identity(4, 'f')
         self._matrix_stack = []
         
-    def draw(self, **kwargs):
+    def draw(self):
         glMatrixMode(GL_MODELVIEW)
         glPushMatrix()
         glMultMatrixf(self._transform)
         glColor(*self._color)
-        self._draw(**kwargs)
+        self._draw()
         glPopMatrix()
         
-    def _draw(self, **kwargs):
+    def _draw(self):
         raise NotImplementedError
     
     def setColor(self, r, g, b):
