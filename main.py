@@ -53,9 +53,6 @@ def add_labels(s):
 def create_euclidean_scene():
     s = Scene()
     add_circles(s)
-    # "light cone"
-    s.addObject(Line(p1=(-5,-5), p2=(5,5), color=(0.7, 0.7, 0.0)))
-    s.addObject(Line(p1=(5,-5), p2=(-5,5), color=(0.7, 0.7, 0.0)))
     # axes
     s.addObject(Line(p1=(-5,0), p2=(5,0), color=(0.0, 0.0, 0.2)))
     s.addObject(Line(p1=(0,-5), p2=(0,5), color=(0.0, 0.0, 0.2)))
@@ -80,35 +77,9 @@ def create_minkowski_scene():
     add_labels(s)
     return s
 
-class Test(QGLWidget):
-    
-    def initializeGL(self):
-        glMatrixMode(GL_PROJECTION)
-        glLoadIdentity()
-        glOrtho(-aspect, aspect, -1.0, 1.0, -1.0, 1.0)
-        glViewport(0, 0, width, height)
-    
-    def paintGL(self):
-        dt = (datetime.now() - datetime(1970, 1, 1)).total_seconds()
-        k = dt%10
-        v = -(10-k)*0.75/5 if k > 5 else -k*0.75/5
-        s.identity()
-        s.lorentz(v)
-        s.draw()
-        QTimer.singleShot(1, self.updateGL)
-        
-    def resizeGL(self, w, h):
-        width = w
-        height = h
-        aspect = width/height
-        glViewport(0, 0, width, height)
-        glMatrixMode(GL_PROJECTION)
-        glLoadIdentity()
-        glOrtho(-aspect, aspect, -1.0, 1.0, -1.0, 1.0)
-
 def main():
-    width = 600
-    height = 450
+    width = 800
+    height = 600
     aspect = width/height
     app = QtGui.QApplication(sys.argv)
     buf = QGLPixelBuffer(width, height)
