@@ -4,7 +4,7 @@ from math import cos, sin
 
 class Circle(GenericObject):
     
-    def __init__(self, a=1, tmin=-3.1416, tmax=3.1416, steps=100, **kwargs):
+    def __init__(self, a=1, tmin=-3.15, tmax=3.15, steps=100, **kwargs):
         super(Circle, self).__init__(**kwargs)
         self.a = a  #y = a*cosh(t), x = a*sinh(t)
         self.tmin = tmin

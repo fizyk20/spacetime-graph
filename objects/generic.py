@@ -46,7 +46,6 @@ class GenericObject:
         
     def rotate(self, angle):
         m = numpy.identity(4, 'f')
-        angle *= pi/180
         c = cos(angle)
         s = sin(angle)
         m[0, 0] = c

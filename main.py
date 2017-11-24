@@ -3,64 +3,82 @@ from PyQt4.QtCore import QTimer
 from PyQt4.QtGui import QPainter, QColor
 from PyQt4.QtOpenGL import QGLPixelBuffer, QGLWidget
 from OpenGL.GL import *
+import math
 from math import sqrt
 from lorentz import *
 import sys
 from objects import *
 from datetime import datetime
 
-app = QtGui.QApplication(sys.argv)
-width = 800
-height = 600
-aspect = width/height
+def add_grid(s):
+    a = -5
+    while a <= 5:
+        if a == 0.0:
+            a += 0.125
+        s.addObject(Line(p1=(-5,a), p2=(5,a), color=(0.8, 0.8, 1.0)))
+        s.addObject(Line(p1=(a,-5), p2=(a,5), color=(0.8, 0.8, 1.0)))
+        if a % 0.25 == 0:
+            tick_t = Text(text='%.2f' % a, color=(0.0, 0.0, 0.2), size=0.07)
+            tick_t.translate(a, 0.01)
+            s.addObject(tick_t)
+            tick_x = Text(text='%.2f' % a, color=(0.0, 0.0, 0.2), size=0.07)
+            tick_x.rotate(-math.pi/4)
+            tick_x.translate(-0.03, a)
+            s.addObject(tick_x)
+        a += 0.125
 
-#buf = QGLPixelBuffer(width, height)
+def add_hyperbolas(s):
+    param = 0.25
+    while param <= 1:
+        for i in range(0,4):
+            h = Hyperbola(param, color=(0.0, 1.0, 1.0))
+            h.rotate(i*math.pi/2)
+            s.addObject(h)
+        param += 0.25
 
-#if not buf.makeCurrent():
-#    print('makeCurrent fail')
-    
-#glMatrixMode(GL_PROJECTION)
-#glOrtho(-aspect, aspect, -1.0, 1.0, -1.0, 1.0)
+def add_circles(s):
+    param = 0.25
+    while param <= 1:
+        s.addObject(Circle(param, color=(0.0, 1.0, 1.0)))
+        param += 0.25
 
-s = Scene()
-s.addObject(Hyperbola(0.2, color=(0.0, 1.0, 1.0)))
-s.addObject(Hyperbola(0.53, color=(0.0, 1.0, 1.0)))
-h = Hyperbola(0.2, color=(0.0, 1.0, 1.0))
-h.rotate(90)
-s.addObject(h)
-h = Hyperbola(0.53, color=(0.0, 1.0, 1.0))
-h.rotate(90)
-s.addObject(h)
-s.addObject(Line(p1=(-5,-5), p2=(5,5), color=(0.7, 0.7, 0.0)))
-s.addObject(Line(p1=(5,-5), p2=(-5,5), color=(0.7, 0.7, 0.0)))
+def add_labels(s):
+    label_t = Text(text='t', color=(0.0, 0.0, 0.2), size=0.1)
+    label_x = Text(text='x', color=(0.0, 0.0, 0.2), size=0.1)
+    label_t.translate(0.82, 0.01)
+    s.addObject(label_t)
+    label_x.translate(0.01, 0.82)
+    s.addObject(label_x)
 
-ziemia = Line(p1=(-4, 0.0), p2=(4, 0.0), color=(0, 0, 0))
-s.addObject(ziemia)
+def create_euclidean_scene():
+    s = Scene()
+    add_circles(s)
+    # "light cone"
+    s.addObject(Line(p1=(-5,-5), p2=(5,5), color=(0.7, 0.7, 0.0)))
+    s.addObject(Line(p1=(5,-5), p2=(-5,5), color=(0.7, 0.7, 0.0)))
+    # axes
+    s.addObject(Line(p1=(-5,0), p2=(5,0), color=(0.0, 0.0, 0.2)))
+    s.addObject(Line(p1=(0,-5), p2=(0,5), color=(0.0, 0.0, 0.2)))
+    # grid
+    add_grid(s)
+    # axis labels
+    add_labels(s)
+    return s
 
-s.addObject(Line(p1=(0.0, -4), p2=(0.0, 4), color=(0, 0, 0))) #Ziemia x
-
-ziemia_t = Text(text='Ziemia', color=(0, 0, 0), size=0.1)
-ziemia_t.translate(0.01, 0.3)
-ziemia_t.rotate(90)
-s.addObject(ziemia_t)
-
-rakieta = Line(p1=(-4, -3), p2=(4, 3), color=(0, 0, 1))
-s.addObject(rakieta)
-
-s.addObject(Line(p1=(-3, -4), p2=(3, 4), color=(0, 0, 1))) #rakieta x
-
-rakieta_t = Text(text='Rakieta', color=(0, 0, 1), size=0.1)
-rakieta_t.translate(0.01, 0.6)
-rakieta_t.rotate(54.3)
-s.addObject(rakieta_t)
-
-zyczenia1 = Line(p1=(0.2,0), p2=(0.8,0.6), color=(1, 0, 0))
-s.addObject(zyczenia1)
-
-zyczenia2 = Line(p1=(0.2,0), p2=(0.8,-0.6), color=(1, 0, 0))
-zyczenia2.lorentz(0.75)
-s.addObject(zyczenia2)
-
+def create_minkowski_scene():
+    s = Scene()
+    add_hyperbolas(s)
+    # light cone
+    s.addObject(Line(p1=(-5,-5), p2=(5,5), color=(0.7, 0.7, 0.0)))
+    s.addObject(Line(p1=(5,-5), p2=(-5,5), color=(0.7, 0.7, 0.0)))
+    # axes
+    s.addObject(Line(p1=(-5,0), p2=(5,0), color=(0.0, 0.0, 0.2)))
+    s.addObject(Line(p1=(0,-5), p2=(0,5), color=(0.0, 0.0, 0.2)))
+    # grid
+    add_grid(s)
+    # axis labels
+    add_labels(s)
+    return s
 
 class Test(QGLWidget):
     
@@ -88,13 +106,35 @@ class Test(QGLWidget):
         glLoadIdentity()
         glOrtho(-aspect, aspect, -1.0, 1.0, -1.0, 1.0)
 
-#if not buf.toImage().save('test.png', 'PNG'):
-#    print('Coś nie wyszło')
-    
-w = Test()
-w.resize(800, 600)
-w.makeCurrent()
-w.show()
-w.updateGL()
+def main():
+    width = 600
+    height = 450
+    aspect = width/height
+    app = QtGui.QApplication(sys.argv)
+    buf = QGLPixelBuffer(width, height)
 
-sys.exit(app.exec_())
+    if not buf.makeCurrent():
+        print('makeCurrent fail')
+    
+    glMatrixMode(GL_PROJECTION)
+    glOrtho(-aspect, aspect, -1.0, 1.0, -1.0, 1.0)
+
+    m = create_minkowski_scene()
+    e = create_euclidean_scene()
+
+    for k in range(200):
+        print(k, '...')
+        param = math.sin(k/200*2*math.pi)*math.pi/2
+        m.identity()
+        m.lorentz(math.tanh(param))
+        m.draw()
+        buf.toImage().save('images/minkowski/%03d.png' % k, 'PNG')
+        e.identity()
+        e.rotate(param)
+        e.draw()
+        buf.toImage().save('images/euclidean/%03d.png' % k, 'PNG')
+
+    buf.doneCurrent()
+    
+if __name__ == '__main__':
+    main()
