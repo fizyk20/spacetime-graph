@@ -18,10 +18,10 @@ def add_grid(s):
         s.addObject(Line(p1=(-5,a), p2=(5,a), color=(0.8, 0.8, 1.0)))
         s.addObject(Line(p1=(a,-5), p2=(a,5), color=(0.8, 0.8, 1.0)))
         if a % 0.25 == 0:
-            tick_t = Text(text='%.2f' % a, color=(0.0, 0.0, 0.2), size=0.07)
+            tick_t = Text(text='%.2f' % a, color=(0.0, 0.0, 0.2), size=0.07, axis_align=0)
             tick_t.translate(a, 0.01)
             s.addObject(tick_t)
-            tick_x = Text(text='%.2f' % a, color=(0.0, 0.0, 0.2), size=0.07)
+            tick_x = Text(text='%.2f' % a, color=(0.0, 0.0, 0.2), size=0.07, axis_align=1)
             tick_x.rotate(-math.pi/4)
             tick_x.translate(-0.03, a)
             s.addObject(tick_x)
@@ -43,8 +43,8 @@ def add_circles(s):
         param += 0.25
 
 def add_labels(s):
-    label_t = Text(text='t', color=(0.0, 0.0, 0.2), size=0.1)
-    label_x = Text(text='x', color=(0.0, 0.0, 0.2), size=0.1)
+    label_t = Text(text='t', color=(0.0, 0.0, 0.2), size=0.1, axis_align=0)
+    label_x = Text(text='x', color=(0.0, 0.0, 0.2), size=0.1, axis_align=1)
     label_t.translate(0.82, 0.01)
     s.addObject(label_t)
     label_x.translate(0.01, 0.82)

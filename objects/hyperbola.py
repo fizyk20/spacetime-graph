@@ -4,7 +4,7 @@ from math import cosh, sinh
 
 class Hyperbola(GenericObject):
     
-    def __init__(self, a=1, tmin=-3.0, tmax=3.0, steps=100, **kwargs):
+    def __init__(self, a=1, tmin=-4.0, tmax=4.0, steps=100, **kwargs):
         super(Hyperbola, self).__init__(**kwargs)
         self.a = a  #y = a*cosh(t), x = a*sinh(t)
         self.tmin = tmin
