@@ -5,9 +5,8 @@ from PyQt4.QtOpenGL import QGLPixelBuffer, QGLWidget
 from OpenGL.GL import *
 import math
 from math import sqrt
-from lorentz import *
 import sys
-from objects import *
+from primitives import *
 from datetime import datetime
 
 def add_grid(s):
