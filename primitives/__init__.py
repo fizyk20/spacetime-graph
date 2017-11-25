@@ -1,6 +1,7 @@
 from .circle import Circle
 from .hyperbola import Hyperbola
 from .line import Line
+from .dotted_line import DottedLine
 from .arrow import Arrow
 from .text import Text
 from .point import Point
